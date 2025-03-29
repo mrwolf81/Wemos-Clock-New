@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>Wifi</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    </head>
+<body>
+    
+<!--navagation bar-->
+<ul class="topnav">
+  <li><a href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
+  <li class="dropdown" style="float: right; align-content: center;">
+      <a href="javascript:void(0)" class="dropbtn"><span class="material-symbols-outlined">menu</span></a>
+      <div class="dropdown-content">
+          <a href="alarmsettings.html"><span class="material-symbols-outlined">alarm</span>Alarm</a>
+          <a href="wifisettings.html"><span class="material-symbols-outlined">wifi</span>wifi</a>
+          <a href="systemsettings.html"><span class="material-symbols-outlined">settings</span>Settings</a>
+      </div>
+  </li>
+</ul>
+<header class="systemsetting wifi"><h2 class="symbol">Wifi Settings</h2></header>
+
+<section>
+  <div>
+    <table class="wifitable">
+      <tr class="currentwifi">
+        <th><span>Current Wifi Settings</span></th>
+      </tr>
+      <tr class="currentwifi">
+        <th><span class="wifitext">SSID : </span></th>
+      </tr>
+      <tr class="currentwifi">
+        <th><span class="wifitext" id="SSID">%SSID%</span></th>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class="wifiinput">
+  <form action="/wifi" target="hidden-form">
+    <span>Enter New Wifi Settings</span><br><br>
+    <label for="ssid">SSID</label><br>
+    <input type="ssid" id="ssid" name="ssid" required><br><br>
+    <label for="password">Password</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    <input type="submit" value="Submit" class="wifibtn" onclick="submitMessage()">
+</form>
+<br>
+<p style="font-size: medium; color: rgb(147, 22, 22);">restart required to connect to new WIFI settings</p>
+</section>
+<br><br>
+<section class="restart">
+<form action="/reboot">
+  <input type="submit" value="Restart" class="rebootbtn" id="reboot" name="reboot">
+</form>
+</section>
+</body>
+<script>
+  (() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
+
+  
+</script>
+</html>

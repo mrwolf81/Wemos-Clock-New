@@ -1,0 +1,21 @@
+#######################################
+# Syntax 
+#######################################
+
+#######################################
+# Library (KEYWORD1)
+#######################################
+MyTimezone	KEYWORD1
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+TimeChangeRule	KEYWORD1
+Timezone	KEYWORD1
+toLocal		KEYWORD2
+toUTC		KEYWORD2
+utcIsDST	KEYWORD2
+locIsDST	KEYWORD2
+utc		KEYWORD1
+tcr		KEYWORD1

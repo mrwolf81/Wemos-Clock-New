@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>System Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body onload="isChecked()">
+<!--navagation bar-->
+<ul class="topnav">
+  <li><a href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
+  <li class="dropdown" style="float: right; align-content: center;">
+      <a href="javascript:void(0)" class="dropbtn"><span class="material-symbols-outlined">menu</span></a>
+      <div class="dropdown-content">
+          <a href="alarmsettings.html"><span class="material-symbols-outlined">alarm</span>Alarm</a>
+          <a href="wifisettings.html"><span class="material-symbols-outlined">wifi</span>wifi</a>
+          <a href="systemsettings.html"><span class="material-symbols-outlined">settings</span>Settings</a>
+      </div>
+  </li>
+</ul>
+
+<header class="systemsetting settings"><h2 class="symbol">System Settings</h2></header>
+
+<section>
+  <div>
+    <table class="ntptable">
+      <tr class="ntptime">
+        <th><span class="material-symbols-outlined">nest_clock_farsight_analog</span></th>
+        <th><span>NTP Time :</span></th>
+        <th><span class="text" id="time">%TIME%</span></th>
+        <th><span class="text" id="ampm" style="font-size: small;">%AMPM%</span></th>
+      </tr>
+      <tr class="ntptime">
+        <th><span class="material-symbols-outlined">calendar_month</span></th>
+        <th><span class="text">NTP Date : </span></th>
+        <th><span class="text" id="date">%DATE%</span></th>
+        <th></th>
+      </tr>
+      <tr class="rtctime">
+        <th><span class="material-symbols-outlined">nest_clock_farsight_analog</span></th>
+        <th><span class="text">RTC Time : </span></th>
+        <th><span class="text" id="timertc">%TIMERTC%</span></th>
+        <th><span class="text" id="ampmRTC" style="font-size: small;">%AMPMRTC%</span></th>
+      </tr>
+      <tr class="rtctime">
+        <th><span class="material-symbols-outlined">calendar_month</span></th>
+        <th><span class="text">RTC Date : </span></th>
+        <th><span class="text" id="datertc">%DATERTC%</span></th>
+        <th></th>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class="updatesection">
+  <div class="updatetime">
+    <form action="/updatertc">
+      <input type="datetime-local" id="datetimeRTC" name="datetimeRTC" onchange="updateUPDRTC(this)"><br><br>
+      <input type="submit" value="Update RTC" class="updateRTC">
+    </form>
+  </div>
+  <br>
+  <div class="syncrtc">
+    <form action="/syncrtc">
+      <input type="submit" value="Sync RTC" class="sync" id="sync" name="sync">
+    </form>
+  </div>
+  <div>
+</section>
+
+<section class="form-group">
+  <div class="btn-group">
+    <form action="/twelve">
+        <input type="submit" class="button" value="12hr" name="twelve" id="twelve">
+    </form>
+    <form action="/twenty">
+        <input type="submit" class="button" value="24hr" name="twenty" id="twenty">
+    </form>
+  </div>
+</section>
+
+
+<section>
+<div class="slidecontainer">
+  <input type="range" onchange="updateSliderPWM(this)" min="0" max="255" value="%SILDERVALUE%" class="slider" id="pwmSlider">
+  <p class="mainsetting2">Brightness: <span id="textSliderValue"></span>&percnt;</p>
+</div>
+</section>
+
+<script>
+function updateUPDRTC(element) {
+var xhr = new XMLHttpRequest();
+var updRTC = document.getElementById("datetimeRTC").value;
+console.log(updRTC);
+xhr.open("GET", "/updatertc?value="+updRTC, true);
+xhr.send();
+}
+
+
+
+
+
+//const toggle = document.querySelector('#toggle1');
+//const updateBackground = (event) => {
+ ////document.body.classList.toggle1('on');
+//}
+
+toggle.addEventListener("click", () => document.body.classList.toggle('on') , false);
+  function updateSliderPWM(element) {
+              var xhr = new XMLHttpRequest();
+              var sliderValue = document.getElementById("pwmSlider").value;
+              document.getElementById("textSliderValue").innerHTML = sliderValue;
+              console.log(sliderValue);
+              xhr.open("GET", "/slider?value="+sliderValue, true);
+              xhr.send();
+            }
+            
+
+</script>
+
+</body>
+</html>

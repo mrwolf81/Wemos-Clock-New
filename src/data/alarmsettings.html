@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>About</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    </head>
+<body>
+    
+<!--navagation bar-->
+<ul class="topnav">
+  <li><a href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
+  <li class="dropdown" style="float: right; align-content: center;">
+      <a href="javascript:void(0)" class="dropbtn"><span class="material-symbols-outlined">menu</span></a>
+      <div class="dropdown-content">
+          <a href="alarmsettings.html"><span class="material-symbols-outlined">alarm</span>Alarm</a>
+          <a href="wifisettings.html"><span class="material-symbols-outlined">wifi</span>wifi</a>
+          <a href="systemsettings.html"><span class="material-symbols-outlined">settings</span>Settings</a>
+      </div>
+  </li>
+</ul>
+
+<header class="systemsetting alarmpage"><h3 class="symbol">Alarm Settings</h3></header>
+
+<section class="alarminfo">
+  <form action="/alarm">
+    <p class="alarm1">Alarm 1 set at : <span class="alarm3" id="ALARM1">%ALARM1%</span><br></p>
+    <label for="alarm1" class="alarm">Adjust :</label>
+    <input type="time" id="alarm1" name="alarm1"><input type="submit" value="UPDATE" class="alarmbtn">
+  </form>
+  <br>
+  <form action="/alarm">
+    <p class="alarm1">Alarm set 2 at : <span class="alarm3" id="ALARM2">%ALARM2%</span><br></p>
+    <label for="alarm1" class="alarm">Adjust :</label>
+    <input type="time" id="alarm2" name="alarm2"><input type="submit" value="UPDATE" class="alarmbtn">
+  </form>
+  <br>
+  <form action="/alarm">
+    <p class="alarm1">Alarm set 3 at : <span class="alarm3" id="ALARM3">%ALARM3%</span><br></p>
+    <label for="alarm1" class="alarm">Adjust :</label>
+    <input type="time" id="alarm3" name="alarm3"><input type="submit" value="UPDATE" class="alarmbtn">
+  </form>
+  <br>
+  <form action="/alarm">
+    <p class="alarm1">Alarm set 4 at : <span class="alarm3" id="ALARM4">%ALARM4%</span><br></p>
+    <label for="alarm1" class="alarm">Adjust :</label>
+    <input type="time" id="alarm4" name="alarm4"><input type="submit" value="UPDATE" class="alarmbtn">
+  </form>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+
+#######################################
+# Syntax Coloring Map For SegDisplay
+#######################################
+
+SegDisplay	KEYWORD1
+clearDisplay	KEYWORD2
+blinkDisplay	KEYWORD2
+updateDisplay	KEYWORD2
+DisplayTemp	KEYWORD2
+DisplayHumid	KEYWORD2
+DisplayDate	KEYWORD2
+DisplayYear	KEYWORD2
+ShiftRegisters	KEYWORD3

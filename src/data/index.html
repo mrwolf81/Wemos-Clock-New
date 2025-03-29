@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    </head>
+<body>
+    
+<!--navagation bar-->
+<ul class="topnav">
+  <li><a href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
+  <li class="dropdown" style="float: right; align-content: center;">
+      <a href="javascript:void(0)" class="dropbtn"><span class="material-symbols-outlined">menu</span></a>
+      <div class="dropdown-content">
+          <a href="alarmsettings.html"><span class="material-symbols-outlined">alarm</span>Alarm</a>
+          <a href="wifisettings.html"><span class="material-symbols-outlined">wifi</span>wifi</a>
+          <a href="systemsettings.html"><span class="material-symbols-outlined">settings</span>Settings</a>
+      </div>
+  </li>
+</ul>
+<header class="systemsetting index"><h2 class="symbol">LED WIFI CLOCK</h2></header>
+
+<section>
+  <div>
+    <table class="maintable">
+      <tr class="maintime">
+        <th>
+          <span class="material-symbols-outlined">nest_clock_farsight_analog</span>
+          <span class="text">Time :</span>
+          <span class="text" id="maintime">%MAINTIME%</span>
+          <span class="text" id="mainampm" style="font-size: small;">%MAINAMPM%</span>
+        </th>
+      </tr>
+      <tr class="maindate">
+        <th>
+          <span class="material-symbols-outlined">calendar_month</span>
+          <span class="text">Date : </span>
+          <span class="text" id="maindate">%MAINDATE%</span>
+        </th>
+      </tr>
+      <tr class="maintemp">
+        <th>
+          <span class="material-symbols-outlined">thermometer</span>
+          <span class="text">Temp :</span>
+          <span class="text" id="temperature">%TEMPERATURE%</span>
+          <sup class="units; text">&deg;C</sup>
+        </th>
+      </tr>
+      <tr class="mainhumid">
+        <th>
+          <span class="material-symbols-outlined">water_drop</span>
+          <span class="text">Humidity :</span>
+          <span class="text" id="humidity">%HUMIDITY%</span>
+          <sup class="units; text">&#37;RH</sup>
+        </th>
+      </tr>
+      <tr class="mainwifi">
+        <th>
+          <span class="material-symbols-outlined">wifi</span>
+          <span class="text2">Connected to:</span>
+          <span class="text2" id="SSID">%SSID%</span>
+        </th>
+      </tr>
+    </table>
+  </div>
+  <p class="row-gap-6">
+
+  </p>
+  <div class="linkcenter">
+    <div class="links">
+        <span class="linkcap">
+            <div class="btn-group">
+                <a href="https://github.com/mrwolf81/Warehouse-sized-clock-WEMOS"><button class="button">GitHub</button></a>
+                <a href="mailto:mr.wolf.81.sw@gmail.com"><button class="button">Email:</button></a>
+            </div>
+        </span>
+    </div>
+</div>
+</section>
+</body>
+</html>
