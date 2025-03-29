@@ -21,10 +21,10 @@ typedef unsigned char NOTE_LETTER_INDEX;
 typedef unsigned char OCTAVE_INDEX;
 typedef unsigned char BPM_INDEX;
 
-static DURATION_INDEX       INVALID_DURATION_INDEX        = (DURATION_INDEX)-1;
-static NOTE_LETTER_INDEX    INVALID_NOTE_LETTER_INDEX     = (NOTE_LETTER_INDEX)-1;
-static OCTAVE_INDEX         INVALID_OCTAVE_INDEX          = (OCTAVE_INDEX)-1;
-static BPM_INDEX            INVALID_BPM_INDEX             = (BPM_INDEX)-1;
+//static DURATION_INDEX       INVALID_DURATION_INDEX        = (DURATION_INDEX)-1;
+//static NOTE_LETTER_INDEX    INVALID_NOTE_LETTER_INDEX     = (NOTE_LETTER_INDEX)-1;
+//static OCTAVE_INDEX         INVALID_OCTAVE_INDEX          = (OCTAVE_INDEX)-1;
+//static BPM_INDEX            INVALID_BPM_INDEX             = (BPM_INDEX)-1;
 
 typedef unsigned short RTTTL_DURATION;
 typedef          char  RTTTL_NOTE_LETTER;
