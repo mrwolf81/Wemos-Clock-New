@@ -1,4 +1,3 @@
-
 #include <anyrtttl.h>
 #include <binrtttl.h>
 #include <pitches.h>
@@ -17,33 +16,27 @@
 #define DHTTYPE DHT22
 #define BUZZER_PIN D6
 
-const char *tetris = "tetris:d=4,o=5,b=160:e6,8b,8c6,8d6,16e6,16d6,8c6,8b,a,8a,8c6,e6,8d6,8c6,b,8b,8c6,d6,e6,c6,a,2a,8p,d6,8f6,a6,8g6,8f6,e6,8e6,8c6,e6,8d6,8c6,b,8b,8c6,d6,e6,c6,a,a";
+const char * tetris = "tetris:d=4,o=5,b=160:e6,8b,8c6,8d6,16e6,16d6,8c6,8b,a,8a,8c6,e6,8d6,8c6,b,8b,8c6,d6,e6,c6,a,2a,8p,d6,8f6,a6,8g6,8f6,e6,8e6,8c6,e6,8d6,8c6,b,8b,8c6,d6,e6,c6,a,a";
 const char *simpson = "The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6";
 const char *tom = "TomAndJe:d=8,o=6,b=160:d,e,b5,4d.,p,4d,e,b5,4d.,p,c,b5,c,d,1e.,32p,d,e,f#,g,f#.,16g,a,4d.,p,4d,e,b5,2d,4f#,g#,d#,2f#,4f#,g#,e,f#,d#,e,c#,d#,b5.,16a5,b5,4d.,p,4d,e,b5,2d,4c,d,a5,4c,c#,4d,2a5,1g5";
 const char *muppet = "TheMuppe:d=8,o=6,b=180:e,c,a5,g5,p,e,p,4f,p,g,e,4c,4p,e,d,a5,g5,p,e,p,f,4g,4e,2p,e,d,a5,g5,p,e,p,4f,p,g,e,4c,d,e,4c,d,e,4c,d,e,c,a5,g5,c,p,c,p,c,c,p,c";
 
-RTC_Millis RTC;
+RTC_DS3231 RTC;
+//RTC_Millis RTC;
 unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 500;
-const byte dotPin = D0;
-//const int buzzer = D6;
 
 static const char ntpServerName[] = "au.pool.ntp.org";
 WiFiUDP Udp;
 uint16_t localPort;
-
 TimeElements myTimeElements;
-
-SegDisplay SegDisplay(D3,D7,D8);  //D2,D3,D4
-
+DHT dht(DHTPIN, DHTTYPE);
 AsyncWebServer server(80);
 
-//const int dot1 = D0;                //colon dot
-//const int dot2 = D0;                //colon dot 2 / AM/PM light
-//const int dot3 = D4;              //AM/PM light constantly on
+SegDisplay SegDisplay(D3,D7,D8);  //D2,D3,D4
 const int outputEnablePin = D4;     //brightness control
-DHT dht(DHTPIN, DHTTYPE);
+const byte dotPin = D0;
 
 TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
 TimeChangeRule aEST = {"AEST", First, Sun, Apr, 3, 600};    // UTC + 10 hours
@@ -63,11 +56,9 @@ int rtc_hour;
 int net_hour;
 int alhr;
 
-unsigned long previousMillis = 0; //used for tone playback
-const long interval = 1000; //used for tone playback
-
 //--------------------------------- webserver params ---------------------------------------------------------//
 String sliderValue = "0";
+String dot = "0";
 String DateTimeUpdate = "0";
 String updRTC = "0";
 String switchstatus = "0";
@@ -225,13 +216,6 @@ String getRTCTime(){
   String timebuffer = timebuf;
   return String(timebuffer);
 }
-String getRTCAlarmTime(){
-  DateTime dt = RTC.now();
-  char timebuf[4];
-  sprintf(timebuf,"%02d:%02d",dt.hour(),dt.minute());
-  String timebuffer = timebuf;
-  return String(timebuffer);
-}
 
 String getRTCDate(){
   DateTime dt = RTC.now();
@@ -253,12 +237,18 @@ String getRTCAMPM(){
   String RTCampm = AMPM[am_pm];
   return String(RTCampm);
 }
+String getRTCAlarmTime(){
+  DateTime dt = RTC.now();
+  char timebuf[4];
+  sprintf(timebuf,"%02d:%02d",dt.hour(),dt.minute());
+  String timebuffer = timebuf;
+  return String(timebuffer);
+}
 
 //-------------------------- alarm info ----------------------------------------//
 
 
 String alarmtime1(){
-
   String alarmtime = readFile(SPIFFS,"/ALARM1.txt");
   while (Serial.available()>0){
     int inChar = Serial.read();
@@ -266,10 +256,10 @@ String alarmtime1(){
       alarmtime +=(char)inChar;
       }
       if(inChar == '\n'){
-        Serial.print("value :");
-        Serial.println(alarmtime.toInt());
-        Serial.print("string :");
-        Serial.println(alarmtime);
+        //Serial.print("value :");
+        //Serial.println(alarmtime.toInt());
+        //Serial.print("string :");
+        //Serial.println(alarmtime);
         }
      }
   return String(alarmtime);
@@ -283,10 +273,10 @@ String alarmtime2(){
       alarmtime +=(char)inChar;
       }
       if(inChar == '\n'){
-        Serial.print("value :");
-        Serial.println(alarmtime.toInt());
-        Serial.print("string :");
-        Serial.println(alarmtime);
+        //Serial.print("value :");
+        //Serial.println(alarmtime.toInt());
+        //Serial.print("string :");
+        //Serial.println(alarmtime);
         }
      }
   return String(alarmtime);
@@ -300,10 +290,10 @@ String alarmtime3(){
       alarmtime +=(char)inChar;
       }
       if(inChar == '\n'){
-        Serial.print("value :");
-        Serial.println(alarmtime.toInt());
-        Serial.print("string :");
-        Serial.println(alarmtime);
+        //Serial.print("value :");
+        //Serial.println(alarmtime.toInt());
+        //Serial.print("string :");
+        //Serial.println(alarmtime);
         }
      }
   return String(alarmtime);
@@ -317,14 +307,15 @@ String alarmtime4(){
       alarmtime +=(char)inChar;
       }
       if(inChar == '\n'){
-        Serial.print("value :");
-        Serial.println(alarmtime.toInt());
-        Serial.print("string :");
-        Serial.println(alarmtime);
+        //Serial.print("value :");
+        //Serial.println(alarmtime.toInt());
+        //Serial.print("string :");
+        //Serial.println(alarmtime);
         }
      }
   return String(alarmtime);
 }
+
 //--------------------------- hour change function -----------------------------------------------//
 
 String hour_change(){
@@ -335,10 +326,10 @@ String hour_change(){
       hourchange +=(char)inChar;
       }
       if(inChar == '\n'){
-        Serial.print("value :");
-        Serial.println(hourchange.toInt());
-        Serial.print("string :");
-        Serial.println(hourchange);
+        //Serial.print("value :");
+        //Serial.println(hourchange.toInt());
+        //Serial.print("string :");
+        //Serial.println(hourchange);
         hourchange.toInt();
         }
      }
@@ -347,17 +338,17 @@ String hour_change(){
 
 //------------------- function to read data from saved files "SPIFFS" ---------------------------//
 
-String readFile(fs::FS &fs, const char * path){  //String readFile(fs::FS &fs, const char * path){
+String readFile(fs::FS &fs, const char * path){
   //Serial.printf("Reading file: %s\r\n", path);
-  File file = fs.open(path, "r"); //File file = fs.open(path, "r");
+  File file = fs.open(path, "r");
   if(!file || file.isDirectory()){
     //Serial.println("- empty file or failed to open file");
-    return String();  //return String();
+    return String();
   }
   //Serial.println("- read from file:");
   String fileContent;
   while(file.available()){
-    fileContent+=String((char)file.read()); //fileContent+=String((char)file.read());
+    fileContent+=String((char)file.read());
   }
   //Serial.println(fileContent);
   return fileContent;
@@ -369,13 +360,13 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
   Serial.printf("Writing file: %s\r\n", path);
   File file = fs.open(path, "w");
   if(!file){
-    Serial.println("- failed to open file for writing");
+    //Serial.println("- failed to open file for writing");
     return;
   }
   if(file.print(message)){
-    Serial.println("- file written");
+    //Serial.println("- file written");
   } else {
-    Serial.println("- write failed");
+    //Serial.println("- write failed");
   }
 }
 
@@ -444,6 +435,7 @@ String processor(const String& var){
 
 void setBrightness(byte brightness){
   analogWrite(outputEnablePin, 255-brightness);
+  
 }
 
 
@@ -461,9 +453,15 @@ void setup(){
   #ifndef ESP8266
     while (!Serial); // wait for serial port to connect. Needed for native USB
     #endif
+    
+    if (! RTC.begin()) {
+    Serial.println("Couldn't find RTC");
+    Serial.flush();
+    while (1) delay(10);
+  }
 
     // following line sets the RTC to the date & time this sketch was compiled
-    RTC.begin(DateTime(F(__DATE__), F(__TIME__)));
+    //RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
     // This line sets the RTC with an explicit date & time, for example to set
     // January 21, 2014 at 3am you would call:
     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));*/
@@ -485,7 +483,7 @@ void setup(){
   WiFi.softAP(hostName, hostPass);
   WiFi.begin(_ssid.c_str(),_pass.c_str());
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.printf("STA: Failed!\n");
+    //Serial.printf("STA: Failed!\n");
     WiFi.disconnect(false);
     delay(1000);
     SegDisplay.blinkDisplay();
@@ -500,16 +498,12 @@ void setup(){
       request->send(SPIFFS,"/alarmsettings.html", String(), false, processor);
       });
   
-    server.on("/wifisettings.html", HTTP_GET, [](AsyncWebServerRequest *request){
-      request->send(SPIFFS, "/wifisettings.html", String(), false, processor);
-      });
-    
     server.on("/systemsettings.html", HTTP_GET, [](AsyncWebServerRequest *request){
       request->send(SPIFFS, "/systemsettings.html", String(), false, processor);
       });
-
-    server.on("/aboutpage.html", HTTP_GET, [](AsyncWebServerRequest *request){
-      request->send(SPIFFS, "/aboutpage.html", String(), false, processor);
+  
+    server.on("/wifisettings.html", HTTP_GET, [](AsyncWebServerRequest *request){
+      request->send(SPIFFS, "/wifisettings.html", String(), false, processor);
       });
   
     server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -583,7 +577,6 @@ void setup(){
     request->send(200, "text/plain", "OK");
 
   });
-
   //---------------------- 12hr 24hr switch -----------------------------------------//
 
 
@@ -598,7 +591,7 @@ void setup(){
     else {
       inputMessage = "No message sent";
     }
-    Serial.println(inputMessage);
+    //Serial.println(inputMessage);
 
     request->redirect("/systemsettings.html");
 
@@ -615,7 +608,7 @@ void setup(){
     else {
       inputMessage = "No message sent";
     }
-    Serial.println(inputMessage);
+    //Serial.println(inputMessage);
 
     request->redirect("/systemsettings.html");
 
@@ -724,7 +717,7 @@ void setup(){
     String inputParam;
     if (request->hasParam(REBOOT)){
       delay(100);
-      //ESP.reset();
+      ESP.reset();
     }
     else{
       inputMessage = "No message sent";
@@ -747,7 +740,7 @@ void loop(){
     //Serial.println("CONNECTED");
     time_t utc = now();
     time_t t = ausET.toLocal(utc, &tcr);
-    delay(1000);
+
     float newT = dht.readTemperature();
     temp1 = newT;
     float newH = dht.readHumidity();
@@ -762,7 +755,6 @@ void loop(){
     Y2 = (year() % 1000) / 100;
     Y3 = (year() % 100) / 10;
     Y4 = year() % 10;
-
     
     if (timeStatus() != timeNotSet) {
     if (now() != prevDisplay) { //update the display only if time has changed
@@ -776,10 +768,10 @@ void loop(){
         Serial.print(" ");
         if(isAM(t) == true){
           Serial.println("am");
-          //analogWrite(dot2, LOW);
+          
         }else{
           Serial.println("pm");
-          //analogWrite(dot2, HIGH);
+          
         }
         DateTime dt = RTC.now();
         int rtc_hour = dt.hour();
@@ -817,60 +809,54 @@ void loop(){
         delay(1000);
         SegDisplay.DisplayYear(Y1,Y2,Y3,Y4);
         delay(500);
-        Serial.print(temp1);
-        //Serial.print(0176);
-        Serial.println("ºC");
-        Serial.print(humid1);
-        Serial.println("rh");
-        delay(500);
       }else{
         SegDisplay.updateDisplay(hourFormat12(ausET.toLocal(utc, &tcr)),hourFormat12(ausET.toLocal(utc, &tcr)),minute(),minute());
       }
       }
       }
-       if(alarmtime1() == getNowTime()){
-    SegDisplay.blinkDisplay();
+  if(alarmtime1() == getNowTime()){
+    anyrtttl::blocking::play(BUZZER_PIN, tetris);
   }else if(alarmtime2() == getNowTime()){
-    SegDisplay.blinkDisplay();
+    anyrtttl::blocking::play(BUZZER_PIN, simpson);
   }else if(alarmtime3() == getNowTime()){
-    SegDisplay.blinkDisplay();
+    anyrtttl::blocking::play(BUZZER_PIN, tom);
   }else if(alarmtime4() == getNowTime()){
-    SegDisplay.blinkDisplay();
+    anyrtttl::blocking::play(BUZZER_PIN, muppet);
   }
 
 //----------------------------- Display Time & Date via RTC if netwrok not available or disconnected --------------------------------------//
       
   }else if (WiFi.status() == WL_DISCONNECTED || WL_NO_SSID_AVAIL || WL_CONNECT_FAILED || WL_CONNECTION_LOST){
     DateTime dt = RTC.now();
-    /*int rtc_hour = dt.hour();
+    hour_change();
+    /*
+    int rtc_hour = dt.hour();
     int am_pm;
     if(dt.hour() == 0){
       rtc_hour += 12; 
     }else if(dt.hour() > 12){
       rtc_hour -= 12;
-    }*/
+    }
+    */
+    Serial.println(dt.hour());
     Serial.println("DISCONNECTED");
     Serial.print("RTC time: ");
     Serial.print(rtc_hour);
     Serial.print(":");
     Serial.print(dt.minute());
     Serial.print(":");
-    Serial.println(dt.second());
-    Serial.print("DT time :");
-    Serial.print(dt.hour());
-    Serial.print(":");
-    Serial.println(dt.minute());
-    Serial.print("alarm time :");
-    Serial.println(alarmtime1());
+    Serial.print(dt.second());
+    if(dt.hour() < 12){
+      Serial.println("am");
+    }else if(dt.hour() >= 12){
+      Serial.println("pm");
+    }
     Serial.print("RTC date: ");
     Serial.print(dt.day());
     Serial.print("-");
     Serial.print(dt.month());
     Serial.print("-");
     Serial.println(dt.year());
-    Serial.print("RTCAlarm : ");
-    Serial.println(getRTCAlarmTime());
-    delay(1000);
     float newT = dht.readTemperature();
     temp1 = newT;
     float newH = dht.readHumidity();
@@ -892,7 +878,6 @@ void loop(){
       rtc_hour = dt.twelveHour();
     }
     
-    
       if((second() == 00) || (second() == 15) || (second() == 30) || (second() == 45)){
         SegDisplay.DisplayTemp(newT,newT,95,96);
         delay(1000);
@@ -902,34 +887,20 @@ void loop(){
         delay(1000);
         SegDisplay.DisplayYear(Y1,Y2,Y3,Y4);
         delay(500);
-        
       }else{
         SegDisplay.updateDisplay(rtc_hour,rtc_hour,dt.minute(),dt.minute());
       }
   }else{
-    Serial.print("unknown status : ");
-    Serial.println(WiFi.status());
+    //Serial.print("unknown status : ");
+    //Serial.println(WiFi.status());
   }
-  currentMillis = millis();
-  if(currentMillis - startMillis >= period){
-    digitalWrite(dotPin, !digitalRead(dotPin));
-    startMillis = currentMillis;
-  }
-  
-  /*digitalWrite(dot1, HIGH);
-  delay(500);
-  digitalWrite(dot1, LOW);
-  delay(500);*/
 
-  //Serial.print("switch status :");
-  //Serial.println(switchstatus);
-  Serial.print(temp1);
-  Serial.print(char(176));
-  Serial.println("C");
-  Serial.print(humid1);
-  Serial.println("rh");
   
-  delay(500);
+  digitalWrite(dotPin, HIGH);
+  delay(300);
+  digitalWrite(dotPin, LOW);
+  delay(300);
+  
 
   if(alarmtime1() == getRTCAlarmTime()){
     anyrtttl::blocking::play(BUZZER_PIN, tetris);
@@ -969,9 +940,9 @@ void loop(){
     Serial.println(_minute);
     RTC.adjust(DateTime(_year,_month,_day,_hour,_minute,0));
     delay(60);
-    //updRTC = 0;
+    updRTC = 0;
   }else{
-    //Serial.println("no rtc update info");
+    Serial.println("no rtc update info");
   }
   if(alarmtime1() == getRTCTime()){
     SegDisplay.blinkDisplay();
@@ -982,6 +953,13 @@ void loop(){
   }else if(alarmtime4() == getRTCTime()){
     SegDisplay.blinkDisplay();
   }
+  /*
+  int fade;
+  fade = setBrightness;
+  analogWrite(dotPin, 255-fade);
+  delay(300);
+  analogWrite(dotPin, 255-fade);
+  delay(300);*/
 }
 
 //---------------------------- function to get the current date and time from network server ----------------------------------------//
@@ -1005,7 +983,7 @@ time_t getNtpTime()
   while (millis() - beginWait < 1500) {
     int size = Udp.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
-      //Serial.println("Receive NTP Response");
+      Serial.println("Receive NTP Response");
       Udp.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
       unsigned long secsSince1900;
       // convert four bytes starting at location 40 to a long integer
@@ -1016,7 +994,7 @@ time_t getNtpTime()
       return secsSince1900 - 2208988800UL;
     }
   }
-  //Serial.println("No NTP Response :-(");
+  Serial.println("No NTP Response :-(");
   return 0; // return 0 if unable to get the time
 }
 
