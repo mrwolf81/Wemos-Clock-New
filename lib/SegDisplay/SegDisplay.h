@@ -14,10 +14,10 @@ class SegDisplay
   void updateDisplay(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
   void clearDisplay();
   void blinkDisplay();
-  void DisplayTemp(uint8_t data1, uint8_t data2);
-  void DisplayHumid(uint8_t data1, uint8_t data2);
+  void DisplayTemp(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
+  void DisplayHumid(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
   void DisplayDate(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
-  void DisplayYear(uint8_t data1);
+  void DisplayYear(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
 
   private:
   uint8_t _DataPin;

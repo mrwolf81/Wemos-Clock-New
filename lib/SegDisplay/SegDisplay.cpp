@@ -75,7 +75,7 @@ void SegDisplay::blinkDisplay(){
   }
 }
 
-void SegDisplay::DisplayTemp(uint8_t data1, uint8_t data2){
+void SegDisplay::DisplayTemp(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4){
   byte RegArray [ShiftRegisters];
   byte Digits [14];
 
@@ -116,7 +116,7 @@ void SegDisplay::DisplayTemp(uint8_t data1, uint8_t data2){
   SegDisplay::sendSerialData(ShiftRegisters, RegArray);
 }
 
-void SegDisplay::DisplayHumid(uint8_t data1, uint8_t data2){
+void SegDisplay::DisplayHumid(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4){
   byte RegArray [ShiftRegisters];
   byte Digits [14];
 
@@ -192,7 +192,7 @@ void SegDisplay::DisplayDate(uint8_t data1, uint8_t data2, uint8_t data3, uint8_
   SegDisplay::sendSerialData(ShiftRegisters, RegArray);
 }
 
-void SegDisplay::DisplayYear(uint8_t data1){
+void SegDisplay::DisplayYear(uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4){
   byte RegArray [ShiftRegisters];
   byte Digits [10];
 
